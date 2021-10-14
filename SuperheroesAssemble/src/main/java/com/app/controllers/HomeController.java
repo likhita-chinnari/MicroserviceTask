@@ -47,41 +47,39 @@ public class HomeController {
 	@Scheduled(fixedRate = 10000)
 	@Async
 	public void API1Calling() {
-		final ResponseEntity<String> response = (ResponseEntity<String>) HomeController.restTemplate
-				.getForEntity(HomeController.uriArray[0], (Class) String.class, new Object[0]);
-		final String jsonString = (String) response.getBody();
+		ResponseEntity<String> response = (ResponseEntity<String>) HomeController.restTemplate.getForEntity(HomeController.uriArray[0], (Class) String.class, new Object[0]);
+		String jsonString = (String) response.getBody();
 		this.fetchFromAPIAndUpdateMap(jsonString, 1);
 	}
 
 	@Scheduled(fixedRate = 10000)
 	@Async
 	public void API2Calling() {
-		final ResponseEntity<String> response = (ResponseEntity<String>) HomeController.restTemplate
+		ResponseEntity<String> response = (ResponseEntity<String>) HomeController.restTemplate
 				.getForEntity(HomeController.uriArray[1], (Class) String.class, new Object[0]);
-		final String jsonString = (String) response.getBody();
+		String jsonString = (String) response.getBody();
 		this.fetchFromAPIAndUpdateMap(jsonString, 2);
 	}
 
 	@Scheduled(fixedRate = 10000)
 	@Async
 	public void API3Calling() {
-		final ResponseEntity<String> response = (ResponseEntity<String>) HomeController.restTemplate
+		ResponseEntity<String> response = (ResponseEntity<String>) HomeController.restTemplate
 				.getForEntity(HomeController.uriArray[2], (Class) String.class, new Object[0]);
-		final String jsonString = (String) response.getBody();
+		String jsonString = (String) response.getBody();
 		this.fetchFromAPIAndUpdateMap(jsonString, 3);
 	}
 
 	public void fetchFromAPIAndUpdateMap(final String jsonString, final int num) {
-		// System.out.println("Hiiiii " + num + " dateAndTime - " +
-		// Calendar.getInstance().getTime());
-		final JSONObject jsonObject = new JSONObject(jsonString);
-		final JSONArray jsonArray = jsonObject.getJSONArray("character");
+		System.out.println("Hiiiii " + num + " dateAndTime - " + Calendar.getInstance().getTime());
+		JSONObject jsonObject = new JSONObject(jsonString);
+		JSONArray jsonArray = jsonObject.getJSONArray("character");
 		for (int i = 0; i < jsonArray.length(); ++i) {
-			final JSONObject obj = jsonArray.getJSONObject(i);
-			final String heroName = obj.getString("name");
-			final int maxPower = obj.getInt("max_power");
+			JSONObject obj = jsonArray.getJSONObject(i);
+			String heroName = obj.getString("name");
+			int maxPower = obj.getInt("max_power");
 			if (this.map.containsKey(heroName)) {
-				final FictionalCharacter currentHero = this.map.get(heroName);
+				FictionalCharacter currentHero = this.map.get(heroName);
 				currentHero.setMax_power(maxPower);
 				if (maxPower != currentHero.getMax_power()) {
 					currentHero.setMax_power(maxPower);
@@ -90,29 +88,29 @@ public class HomeController {
 				}
 				this.map.put(heroName, currentHero);
 			} else {
-				final FictionalCharacter hero = new FictionalCharacter(heroName, maxPower);
+				FictionalCharacter hero = new FictionalCharacter(heroName, maxPower);
 				this.map.put(heroName, hero);
 			}
 		}
-//        System.out.println("map data " + num);
-//        for (final Map.Entry<String, FictionalCharacter> entry : this.map.entrySet()) {
-//            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-//        }
-//        System.out.println();
+		System.out.println("map data " + num);
+		for (final Map.Entry<String, FictionalCharacter> entry : this.map.entrySet()) {
+			System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+		}
+		System.out.println();
 	}
 
 	public List<String> getAllHeroNamesInAList() {
-		final List<String> heroNames = new ArrayList<String>();
-		final RestTemplate restTemplate = new RestTemplate();
+		List<String> heroNames = new ArrayList<String>();
+		RestTemplate restTemplate = new RestTemplate();
 		for (int i = 0; i < HomeController.uriArray.length; ++i) {
-			final ResponseEntity<String> response = (ResponseEntity<String>) restTemplate
+			ResponseEntity<String> response = (ResponseEntity<String>) restTemplate
 					.getForEntity(HomeController.uriArray[i], (Class) String.class, new Object[0]);
-			final String jsonString = (String) response.getBody();
-			final JSONObject jsonObject = new JSONObject(jsonString);
-			final JSONArray jsonArray = jsonObject.getJSONArray("character");
+			String jsonString = (String) response.getBody();
+			JSONObject jsonObject = new JSONObject(jsonString);
+			JSONArray jsonArray = jsonObject.getJSONArray("character");
 			for (int j = 0; j < jsonArray.length(); ++j) {
-				final JSONObject obj = jsonArray.getJSONObject(j);
-				final String heroName = obj.getString("name");
+				JSONObject obj = jsonArray.getJSONObject(j);
+				String heroName = obj.getString("name");
 				heroNames.add(heroName);
 			}
 		}

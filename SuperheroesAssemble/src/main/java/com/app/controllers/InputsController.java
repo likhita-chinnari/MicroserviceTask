@@ -74,7 +74,7 @@ public class InputsController {
 			System.out.println(model.toString());
 		}
 		System.out.println();
-		final ModelAndView modelView = new ModelAndView();
+	    ModelAndView modelView = new ModelAndView();
 		request.setAttribute("selectedHero", (Object) selectedHero);
 		request.setAttribute("currentPowerOfHero",
 				(Object) this.homeController.getMap().get(selectedHero).getMax_power());
@@ -84,7 +84,7 @@ public class InputsController {
 
 	public void cachingInputRequests(final String selectedHero, final int count) {
 		if (InputsController.requestCount > InputsController.cacheSize) {
-			final BusinessRuleModel model = InputsController.priorityQueue.poll();
+		    BusinessRuleModel model = InputsController.priorityQueue.poll();
 			model.changeCount(model.getCount() - 1);
 			if (model.getCount() == 0) {
 				InputsController.hashSet.remove(model.getCharacterName());
@@ -97,7 +97,7 @@ public class InputsController {
 			InputsController.priorityQueue.add(new BusinessRuleModel(selectedHero, 1, mPower));
 			InputsController.hashSet.add(selectedHero);
 		} else {
-			final Iterator<BusinessRuleModel> iterator = InputsController.priorityQueue.iterator();
+		    Iterator<BusinessRuleModel> iterator = InputsController.priorityQueue.iterator();
 			BusinessRuleModel tempModel = null;
 			while (iterator.hasNext()) {
 				tempModel = iterator.next();
