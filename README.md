@@ -6,7 +6,7 @@ The src folder contains a controllers module which has HomeControllers and Input
 
 HomeController is a RestController responsible for  calling the 3 APIs parallely for every 10 seconds, fetching the data from the APIs and updating the latest values in a map.
 The HashMap takes parameters of type String and FictionalCharacter class as key value pairs. The FictionalCharacetr class is present in com.app.model package which stores the
-name and power level of each character fetched from the APIs.
+name and power level of every new character fetched from the APIs.
 
 InputsController is reponsible for recieving the requests from the client and displaying the latest power level of that input character by fecthing it from map present in 
 HomeController. (HomeController is autowired inside InputsController). InputsController also contains a priority Queue which is used to implement the business rules.
